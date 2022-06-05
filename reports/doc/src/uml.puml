@@ -1,0 +1,177 @@
+@startuml
+set namespaceSeparator ::
+
+class "birdnet_models::main.dart::MyApp" {
+  +_MyAppState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "birdnet_models::main.dart::MyApp"
+
+class "birdnet_models::main.dart::_MyAppState" {
+  {static} +DeviceInfoPlugin deviceInfoPlugin
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +Future<void> initPlatformState()
+  -Map<String, dynamic> _readAndroidBuildData()
+  -Map<String, dynamic> _readIosDeviceInfo()
+}
+
+"birdnet_models::main.dart::_MyAppState" o-- "device_info_plus::device_info_plus.dart::DeviceInfoPlugin"
+"flutter::src::widgets::framework.dart::State" <|-- "birdnet_models::main.dart::_MyAppState"
+
+class "birdnet_models::Classifier.dart::Classifier" {
+  -String _modelFileName
+  -String _labelFileName
+  -String _labelFileName2
+  +Interpreter interpreter
+  -InterpreterOptions _interpreterOptions
+  -List<int> _inputShape
+  -List<int> _outputShape
+  -TensorBuffer _outputBuffer
+  -TfLiteType _outputType
+  +Map<int, String> labels
+  +List<String> ListLabels
+  -Future<SharedPreferences> _prefs
+  +int Max_Predictions
+  +Map<String, Map<dynamic, dynamic>> Content_100
+  +Future<void> loadModel()
+  +Future<void> loadLabels()
+  +Future<void> changeLabels()
+  +Future<List<Category>> predict()
+  +void close()
+  +void Result_Category()
+  -Future<void> _write_to_sharedP()
+}
+
+"birdnet_models::Classifier.dart::Classifier" o-- "tflite_flutter::src::interpreter.dart::Interpreter"
+"birdnet_models::Classifier.dart::Classifier" o-- "tflite_flutter::src::interpreter_options.dart::InterpreterOptions"
+"birdnet_models::Classifier.dart::Classifier" o-- "tflite_flutter_helper::src::tensorbuffer::tensorbuffer.dart::TensorBuffer"
+"birdnet_models::Classifier.dart::Classifier" o-- "tflite_flutter::src::bindings::types.dart::TfLiteType"
+
+class "birdnet_models::record_manager.dart::RecordManager" {
+  +bool Button_Is_Active
+  +_RecordManagerState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "birdnet_models::record_manager.dart::RecordManager"
+
+class "birdnet_models::record_manager.dart::_RecordManagerState" {
+  -FlutterAudioCapture _plugin
+  -bool _is_Recording
+  -bool _is_Pass
+  +Timer? timer
+  -int _Percent
+  -List<bool> _is_Mic_Pause
+  -bool _Icon_Toggle
+  +bool is_Txt_Shown
+  -Classifier _new_Classifier
+  +bool is_Model_Changed
+  +void initState()
+  +void dispose()
+  -Future<void> _startCapture()
+  -Future<void> _stopCapture()
+  +void listener()
+  +double change_To_double()
+  +void onError()
+  +int get_Percent()
+  +Widget build()
+  +void Toggle_Record_Pause()
+  +List<double> get_Raw_Input()
+  +void To_Classify()
+  +Classifier get_classifier_ready()
+  +void close_Classifier()
+  +String change_model_name()
+}
+
+"birdnet_models::record_manager.dart::_RecordManagerState" o-- "flutter_audio_capture::flutter_audio_capture.dart::FlutterAudioCapture"
+"birdnet_models::record_manager.dart::_RecordManagerState" o-- "dart::async::Timer"
+"birdnet_models::record_manager.dart::_RecordManagerState" o-- "birdnet_models::Classifier.dart::Classifier"
+"flutter::src::widgets::framework.dart::State" <|-- "birdnet_models::record_manager.dart::_RecordManagerState"
+
+class "birdnet_models::views::home.dart::HomeView" {
+  -String _title
+  +_HomeViewState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "birdnet_models::views::home.dart::HomeView"
+
+class "birdnet_models::views::home.dart::_HomeViewState" {
+  +void initState()
+  +Future<void> get_Permission()
+  +void dispose()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "birdnet_models::views::home.dart::_HomeViewState"
+
+class "birdnet_models::views::result_view.dart::ResultView" {
+  -String _title
+  +_ResultView createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "birdnet_models::views::result_view.dart::ResultView"
+
+class "birdnet_models::views::result_view.dart::_ResultView" {
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "birdnet_models::views::result_view.dart::_ResultView"
+
+class "birdnet_models::views::choose_input_methode.dart::ChooseInputView" {
+  -String _title
+  {static} +Map<String, Map<dynamic, dynamic>> Result_To_Share
+  {static} +Map<dynamic, dynamic> Content
+  +A_ChooseInputView createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "birdnet_models::views::choose_input_methode.dart::ChooseInputView"
+
+class "birdnet_models::views::choose_input_methode.dart::A_ChooseInputView" {
+  -Timer? _timer
+  +List<bool> isSelected
+  +bool is_Recording
+  +bool is_Button_Active
+  +List<bool> is_Model_Selected
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +Widget Mic_File_Row()
+  +Widget Select_Model()
+  +void Model_Selected()
+  +Widget Share_Submit_Row()
+  +void ShareButtonPressed()
+  +void prepare_Share_File()
+  -dynamic _write()
+}
+
+"birdnet_models::views::choose_input_methode.dart::A_ChooseInputView" o-- "dart::async::Timer"
+"flutter::src::widgets::framework.dart::State" <|-- "birdnet_models::views::choose_input_methode.dart::A_ChooseInputView"
+
+class "birdnet_models::views::chosse_model.dart::ChooseModelView" {
+  -String _title
+  +_ChooseModelViewState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "birdnet_models::views::chosse_model.dart::ChooseModelView"
+
+class "birdnet_models::views::chosse_model.dart::_ChooseModelViewState" {
+  -FlutterAudioCapture _plugin
+  -String _Selected_Model_Name
+  -List<String> _Assets_Model_Names
+  +List<String> Models_Name
+  -List<bool> _is_Model_Selected
+  -ButtonStyle _Button_Style
+  +void initState()
+  +Widget build()
+  +void Model_Pressed()
+}
+
+"birdnet_models::views::chosse_model.dart::_ChooseModelViewState" o-- "flutter_audio_capture::flutter_audio_capture.dart::FlutterAudioCapture"
+"birdnet_models::views::chosse_model.dart::_ChooseModelViewState" o-- "flutter::src::material::button_style.dart::ButtonStyle"
+"flutter::src::widgets::framework.dart::State" <|-- "birdnet_models::views::chosse_model.dart::_ChooseModelViewState"
+
+
+@enduml
